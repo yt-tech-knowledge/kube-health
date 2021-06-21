@@ -1,0 +1,32 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubehealth-api-deployment
+spec:
+  template:
+    metadata:
+      labels:
+        app: kubehealth-api
+    spec:
+      containers:
+      - name: kubehealth-api
+        image: techknowledge/kubehealth-api:latest
+        startupProbe:
+          httpGet:
+            path: /startup
+            port: 80
+          failureThreshold: 30
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /status/liveness
+            port: 80
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /status/readiness
+            port: 80
+          successThreshold: 3

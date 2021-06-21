@@ -1,0 +1,13 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubehealth-api-deployment
+spec:
+  template:
+    metadata:
+      labels:
+        app: kubehealth-api
+    spec:
+      containers:
+      - name: kubehealth-api
+        image: techknowledge/kubehealth-api:latest
