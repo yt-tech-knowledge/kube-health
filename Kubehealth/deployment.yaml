@@ -2,7 +2,12 @@
 kind: Deployment
 metadata:
   name: kubehealth-api-deployment
+  labels:
+    app: kubehealth-api
 spec:
+  selector:
+    matchLabels:
+      app: kubehealth-api
   template:
     metadata:
       labels:
@@ -12,4 +17,4 @@ spec:
       - name: kubehealth-api
         image: luisalexandrerodrigues/kubehealth:latest
         ports:
-          - containerPort: 80
+        - containerPort: 80

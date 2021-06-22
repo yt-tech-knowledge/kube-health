@@ -2,7 +2,12 @@
 kind: Deployment
 metadata:
   name: kubehealth-api-deployment
+  labels:
+    app: kubehealth-api
 spec:
+  selector:
+    matchLabels:
+      app: kubehealth-api
   template:
     metadata:
       labels:
@@ -12,16 +17,16 @@ spec:
       - name: kubehealth-api
         image: luisalexandrerodrigues/kubehealth:latest
         ports:
-          - containerPort: 80
+        - containerPort: 80
         startupProbe:
           httpGet:
-            path: /startup
+            path: health/startup
             port: 80
           failureThreshold: 30
           periodSeconds: 10
         livenessProbe:
           httpGet:
-            path: /status/liveness
+            path: health/status/liveness
             port: 80
           initialDelaySeconds: 0
           periodSeconds: 10
@@ -29,6 +34,6 @@ spec:
           failureThreshold: 3
         readinessProbe:
           httpGet:
-            path: /status/readiness
+            path: health/status/readiness
             port: 80
           successThreshold: 3
