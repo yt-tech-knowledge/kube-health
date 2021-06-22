@@ -10,4 +10,6 @@ spec:
     spec:
       containers:
       - name: kubehealth-api
-        image: techknowledge/kubehealth-api:latest
+        image: luisalexandrerodrigues/kubehealth:latest
+        ports:
+          - containerPort: 80
