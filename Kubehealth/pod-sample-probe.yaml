@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubehealth-api
+  labels:
+    app: kubehealth-api
+spec:
+  containers:
+  - name: kubehealth-api
+    image: luisalexandrerodrigues/kubehealth:latest
+    ports:
+    - containerPort: 80
+    startupProbe:
+      httpGet:
+        path: health/startup
+        port: 80
+      failureThreshold: 5
+      periodSeconds: 5
+    livenessProbe:
+      httpGet:
+        path: health/status/liveness
+        port: 80
+      initialDelaySeconds: 0
+      periodSeconds: 3
+      timeoutSeconds: 1
+      failureThreshold: 1
+    readinessProbe:
+      httpGet:
+        path: health/status/readiness
+        port: 80
+      successThreshold: 3
